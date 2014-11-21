@@ -48,16 +48,18 @@
           (recur (+ index 1)))))))
 
 ;; Playing a chord on the guitar.
-(defn guitar-chord [notes]
-  (map guitar notes))
-
-;; Playing a chord on the guitar at a given point in time.
-(defn guitar-chord-at [[time notes]]
-  (map (fn [note] (at time (guitar note))) notes))
+(defn guitar-chord [notes & [offset speed]]
+  (let [offset* (if offset
+                  offset
+                  0)
+        speed* (if speed
+                 speed
+                 8)]
+    (strum-down notes speed* offset*)))
 
 ;; Playing a whole song on the guitar.
 (defn guitar-song [song]
   (let [origin (now)
-        relative (fn [[time notes]]
-                   [(+ time origin) notes])]
-    (map (comp guitar-chord-at relative) song)))
+        per-chord (fn [[time notes]]
+                    (guitar-chord notes time))]
+    (map per-chord song)))
