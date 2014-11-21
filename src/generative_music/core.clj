@@ -21,8 +21,10 @@
     whole))
 
 ;; A macro to simulate strumming down on a guitar.
-(defn strum-down [notes speed]
-  (let [origin (now)
+(defn strum-down [notes speed & [offset]]
+  (let [origin (+ (now) (if offset
+                          offset
+                          0))
         l (count notes)]
     (loop [index 0]
       (if (>= index l)
@@ -32,9 +34,11 @@
           (recur (+ index 1)))))))
 
 ;; A macro to simulate strumming up on a guitar.
-(defn strum-up [notes speed]
+(defn strum-up [notes speed & [offset]]
   (let [rnotes (into [] (reverse notes))
-        origin (now)
+        origin (+ (now) (if offset
+                          offset
+                          0))
         l (count rnotes)]
     (loop [index 0]
       (if (>= index l)
