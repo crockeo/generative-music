@@ -20,26 +20,37 @@
     (detect-silence whole :action FREE)
     whole))
 
-;; Playing a frequency on the guitar specified by a note.
-(defn guitar-note [note]
-  (guitar (note->hz note)))
+;; The standard tuning for guitar notes from high (E4) to low (E2)
+(def guitar-notes
+  [:E4 :B3 :G3 :D3 :A2 :E2])
 
-;; A quicker synonym for killing an instrument.
-(defn k [n]
-  (kill n))
+;; Determining the frequency of a string at a certain fret.
+(defn fretted [string fret]
+  (midi->hz (note (+ fret (note string)))))
 
-;; A quicker synonym for killing everything.
-(defn s []
-  (stop))
+;; Playing a chord on the guitar.
+(defn guitar-chord [notes]
+  (map guitar notes))
 
-;; Playing a bunch of piano in a row.
-(defn play-piano [interval min max]
-  (let [start (now)]
-    (loop [curr min]
-      (if (>= curr max)
-        nil
-        (do (at (+ start (* interval (- curr min))) (piano curr))
-            (recur (+ curr 1)))))))
+;; Doing some testing.
+(defn test-notes []
+  (println (inc (note :E2)))
+  (println (note :G2)))
 
-(definst foo [freq 220]
-  (saw freq))
+;; A standard G-major chord.
+(def g-chord
+  [(fretted :E2 3)
+   (fretted :D3 0)
+   (fretted :G3 0)
+   (fretted :B3 0)
+   (fretted :A2 2)
+   (fretted :E4 3)])
+
+;; A standard E-major chord.
+(def e-chord
+  [(fretted :E2 0)
+   (fretted :A2 2)
+   (fretted :D3 2)
+   (fretted :G3 1)
+   (fretted :B3 0)
+   (fretted :E4 0)])
