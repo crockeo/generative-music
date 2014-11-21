@@ -23,3 +23,20 @@
 ;; Playing a chord on the guitar.
 (defn guitar-chord [notes]
   (map guitar notes))
+
+;; Playing a chord on the guitar at a given point in time.
+(defn guitar-chord-at [[time notes]]
+  (let [l (count notes)]
+    (loop [index 0]
+      (if (>= index l)
+        nil
+        (do
+          (at time (guitar (get notes index)))
+          (recur (+ index 1)))))))
+
+;; Playing a whole song on the guitar.
+(defn guitar-song [song]
+  (let [origin (now)
+        relative (fn [[time notes]]
+                   [(+ time origin) notes])]
+    (map (comp guitar-chord-at relative) song)))
