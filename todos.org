@@ -1,0 +1,7 @@
+TODOS FOR THE PROJECTS
+
+* Architecture
+** Redesign how delays propagate through the system.
+** Rethink the general flow of data from the song to the guitar synth.
+* Transcription
+** Transcribe 'Wonder Wall' (or maybe a better song).
