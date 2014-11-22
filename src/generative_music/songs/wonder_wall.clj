@@ -1,5 +1,5 @@
 (ns generative-music.songs.wonder-wall
-  (:require generative-music.chord :refer [fretted])
+  (:require [generative-music.chord :refer [fretted]])
   (:use [overtone.live]))
 
 ;; wonder-wall.clj
@@ -47,3 +47,11 @@
           (fretted 3 2)
           (fretted 4 5)
           (fretted 5 5)]})
+
+;; The sequence and timing of the chords.
+(def wonder-wall
+  nil)
+
+;; Playing Wonder Wall.
+(defn play-wonder-wall []
+  (guitar-song wonder-wall))
